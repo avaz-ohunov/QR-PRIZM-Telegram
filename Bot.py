@@ -11,7 +11,6 @@ from ScanQR import scan_qr
 from headline import create_headline
 import os
 from datetime import datetime
-import sqlite3
 import curs, curs_usd
 import importlib
 
@@ -78,17 +77,6 @@ class Scan(StatesGroup):
 async def welcome(message: types.Message):
 	await message.answer(f"Приветствую вас, {message.from_user.first_name}!\nЯ — QR-prizm, бот, который создаёт QR-коды с данными о переводе криптовалюты PRIZM.\nВведите адрес кошелька, его публичный ключ, количество переводимых монет и комментарий. И тогда я создам QR-код, отсканировав который можно будет перевести криптовалюту.",
 					reply_markup = kb_default)
-
-	try:
-		connect = sqlite3.connect("QR-prizm users.db")
-		db = connect.cursor()
-		db.execute(f'INSERT INTO Пользователи VALUES("{message.from_user.id}", "@{message.from_user.username}")')
-		connect.commit()
-		connect.close()
-		print(f"@{message.from_user.username} запустил бота")
-	
-	except sqlite3.IntegrityError:
-		pass
 
 
 
